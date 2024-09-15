@@ -1,0 +1,42 @@
+.table {
+    max-width: 70%;
+}
+
+td, th {
+    border: 1px solid #020202;
+    text-align: left;
+    padding: 8px;
+}
+
+.search-container {
+    width: 30%;
+    margin: 80px auto 80px auto;
+}
+
+.form-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+}
+
+#search-btn {
+    margin-left: 6px;
+}
+
+.header-container {
+    display: flex;
+    background-color: rgb(78, 78, 255);
+    justify-content: center;
+}
+
+.zsharp-header {
+    font-size: 35px;
+    color: white;
+    text-align: center;
+    padding: 15px 0px 15px 0px;
+}
+
+.table-container {
+    display: flex;
+    justify-content: center;
+}
