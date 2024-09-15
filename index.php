@@ -1,14 +1,3 @@
-<?php 
-
-    require_once "database.php";
-
-    $db = connect();
-
-    $sql = "SELECT * From zsharp_stats";
-    $query = $db->query($sql);
-    $player_data = $query->fetchAll(PDO::FETCH_ASSOC);
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,12 +10,12 @@
 <body>
     <div>
         <div class="header-container">
-            <h1 class="zsharp-header">ZombieSharp Stats</h1>
+            <a class="header-link" href=""><h1 class="zsharp-header">ZombieSharp Stats</h1></a>
         </div>
         <div class="search-container">
-            <form class="form-container">
-                <input type="text" class="form-control" placeholder="Search for player">
-                <button type="submit" class="btn btn-primary" id="search-btn">Search</button>
+            <form class="form-container" method="get">
+                <input type="text" class="form-control" placeholder="Search for player" name="query" value="<?php echo isset($_GET['query']) ? $_GET['query'] : '' ?>">
+                <button type="submit" class="btn btn-primary" id="search-btn" name="search-submit">Search</button>
             </form>
         </div>
         <div class="table-container">
@@ -41,9 +30,13 @@
                     <th>Last Join</th>
                 </tr>
                 <?php 
-                    $count = 0;
+                    require_once "search.php";
 
-                    foreach ($player_data as $data) :
+                    $count = 0;
+                    $name = isset($_GET['search-submit']) ? $_GET['query'] : '';
+                    $player_data = getResultTable($name);
+
+                    foreach ($player_data as $data) : 
                         $count++;
                 ?>
                 <tr>
@@ -60,6 +53,7 @@
                 ?>
             </table>
         </div>
+        <p style="text-align: center;">Total result found <?=getResultCount()?></p>
     </div>
 </body>
 </html>
