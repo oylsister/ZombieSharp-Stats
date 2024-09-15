@@ -1,3 +1,7 @@
+<?php 
+    require "search.php";
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,9 +34,13 @@
                     <th>Last Join</th>
                 </tr>
                 <?php 
-                    require_once "search.php";
-
                     $count = 0;
+
+                    if(isset($_GET['page_nb'])) {
+                        $page = $_GET['page_nb'] - 1;
+                        $count = $page * $row_per_page;
+                    }
+
                     $name = isset($_GET['search-submit']) ? $_GET['query'] : '';
                     $player_data = getResultTable($name);
 
@@ -53,7 +61,26 @@
                 ?>
             </table>
         </div>
-        <p style="text-align: center;">Total result found <?=getResultCount()?></p>
+        <div class="page-container">
+            <div class="page-info">
+                Showing 1 of <?=getTotalPage() ?>
+            </div>  
+            <div class="pagination"> 
+                <a class="btn btn-danger" href="?page_nb=1">First</a>
+                <a class="btn btn-danger" href="">Previous</a>
+                <div class="page-numbers">
+                    <form>
+                        <input type="number" min="1" max="<?=getTotalPage()?>" class="form-control" name="query" value="<?php isset($_GET['page_nb']) ? $_GET['page_nb'] : "1" ?>">
+                    </form>
+                </div>
+                <a class="btn btn-danger" href="">Next</a>
+                <a class="btn btn-danger" href="?page_nb=<?=getTotalPage()?>">Last</a>
+            </div>
+        </div>
+        <?php
+            if(isset($_GET['search-submit']))
+                echo '<p style="text-align: center;">Total result found ' . getResultCount() . '</p>';
+        ?>
     </div>
 </body>
 </html>
