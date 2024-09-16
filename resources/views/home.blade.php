@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ZombieSharp Statistic</title>
-    <link rel="stylesheet" href="{{ asset('css/home.css') }}">
+    @vite('resources/css/app.css')
+    @vite('resources/js/app.js')
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body>
@@ -13,10 +14,10 @@
         <h1 class="zsharp-header">ZombieSharp Stats</h1>
     </div>
     <div class="search-container mb-4">
-        <form class="form-inline" method="get" action="#">
+        <form class="form-inline" method="get">
             <div class="input-group">
-                <input type="text" class="form-control" placeholder="Search for player" name="query" value="{{ request('query') }}">
-                <button type="submit" class="btn btn-primary" id="search-btn" name="search-submit">Search</button>
+                <input type="text" class="form-control" placeholder="Search for player name or SteamID" name="search" value="{{ request('search') }}">
+                <button type="submit" class="btn btn-primary">Search</button>
             </div>
         </form>
     </div>
@@ -26,7 +27,7 @@
                 <tr>
                     <th>No.</th>
                     <th>Name</th>
-                    <th>SteamID</th>
+                    <th>Steam Auth</th>
                     <th>Total Damage</th>
                     <th>Total Kill</th>
                     <th>Total Infect</th>
@@ -34,22 +35,22 @@
                 </tr>
             </thead>
             <tbody>
-{{--                @foreach ($players as $index => $player)--}}
-{{--                    <tr>--}}
-{{--                        <td>{{ $index + 1 }}</td>--}}
-{{--                        <td>{{ $player->name }}</td>--}}
-{{--                        <td>{{ $player->steam_id }}</td>--}}
-{{--                        <td>{{ $player->total_damage }}</td>--}}
-{{--                        <td>{{ $player->total_kills }}</td>--}}
-{{--                        <td>{{ $player->total_infects }}</td>--}}
-{{--                        <td>{{ $player->last_join }}</td>--}}
-{{--                    </tr>--}}
-{{--                @endforeach--}}
+                @foreach ($players as $index => $player)
+                    <tr>
+                        <td>{{ $index + 1 }}</td>
+                        <td>{{ $player->name }}</td>
+                        <td>{{ $player->steam_auth }}</td>
+                        <td>{{ $player->total_damage }}</td>
+                        <td>{{ $player->total_kill }}</td>
+                        <td>{{ $player->total_infect }}</td>
+                        <td>{{ $player->last_join }}</td>
+                    </tr>
+                @endforeach
             </tbody>
         </table>
     </div>
-    <div class="pagination-container">
-{{--        {{ $players->links() }}--}}
+    <div>
+        {{ $players->links() }}
     </div>
 </div>
 </body>
