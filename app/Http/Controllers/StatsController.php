@@ -2,18 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\PlayerStatistic;
 use Illuminate\Http\Request;
 
 class StatsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(Request $request)
     {
-        return view('home');
+        $query = $request->input('search');
+        $queryBuilder = PlayerStatistic::query();
+        
+        if ($query) {
+            $queryBuilder->where(function ($subQuery) use ($query) {
+                $subQuery->where('name', 'like', "%$query%")
+                    ->orWhere('steam_auth', 'like', "%$query%");
+            });
+        }
+        
+        $players = $queryBuilder->paginate(10)->appends(['search' => $query]);
+        
+        return view('home', compact('players'));
     }
-
+    
     /**
      * Show the form for creating a new resource.
      */
@@ -21,7 +31,7 @@ class StatsController extends Controller
     {
         //
     }
-
+    
     /**
      * Store a newly created resource in storage.
      */
@@ -29,7 +39,7 @@ class StatsController extends Controller
     {
         //
     }
-
+    
     /**
      * Display the specified resource.
      */
@@ -37,7 +47,7 @@ class StatsController extends Controller
     {
         //
     }
-
+    
     /**
      * Show the form for editing the specified resource.
      */
@@ -45,7 +55,7 @@ class StatsController extends Controller
     {
         //
     }
-
+    
     /**
      * Update the specified resource in storage.
      */
@@ -53,7 +63,7 @@ class StatsController extends Controller
     {
         //
     }
-
+    
     /**
      * Remove the specified resource from storage.
      */
