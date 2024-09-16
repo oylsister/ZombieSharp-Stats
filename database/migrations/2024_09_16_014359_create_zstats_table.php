@@ -10,14 +10,18 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        if (!Schema::hasTable('stats')) {
-            Schema::create('stats', function (Blueprint $table) {
-                $table->string('player_name');
+        if (!Schema::hasTable('zstats')) {
+            Schema::create('zstats', function (Blueprint $table) {
+                $table->string('name');
                 $table->string('steam_auth')->primary();
-                $table->integer('total_dmg');
+                $table->integer('total_damage');
                 $table->integer('total_kill');
                 $table->integer('total_infect');
                 $table->date('last_join');
+                
+                // Laravel need it somehow
+                $table->date('created_at');
+                $table->date('updated_at');
             });
         }
     }
@@ -27,6 +31,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('stats');
+        Schema::dropIfExists('zstats');
     }
 };
